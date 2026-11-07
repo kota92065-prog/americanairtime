@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja" class="two"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="refresh" content="600">
+<title>AA羽田タイムボード</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500;600&family=Noto+Sans+JP:wght@400;700;800&display=swap">
+<style>:root{--bg:#f3f5f8;--surface:#fff;--fg:#14202e;--muted:#5d6b7c;--line:#dde3ea;--accent:#0b5cab;--ok:#14804a;--warn:#b45309;--late:#b42318;--ok-bg:#e3f4ea;--warn-bg:#fdf0dc;--late-bg:#fde8e6;--info-bg:#e6eef8;
+ --font-display:"Barlow Condensed","Arial Narrow",sans-serif;--font-body:"Noto Sans JP",system-ui,sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#0d141c;--surface:#16202b;--fg:#e8eef5;--muted:#93a2b3;--line:#263443;--accent:#6ab0ff;--ok:#5fd394;--warn:#f2b45a;--late:#ff8d82;--ok-bg:#12301f;--warn-bg:#3a2a10;--late-bg:#3d1a17;--info-bg:#14283f;color-scheme:dark}}
+/* 画面の大きさに合わせて全体の文字・余白を拡縮(1rem が基準)。今日だけ=one、翌日つき=two */
+html{font-size:max(9px,min(calc(100vh / 46),calc(100vw / 96)))}
+html.two{font-size:max(8px,min(calc(100vh / 76),calc(100vw / 96)))}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);padding:.9rem 1.4rem 1rem}
+.wrap{display:flex;flex-direction:column;gap:.9rem}
+header{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1.4rem;align-items:center}
+h1{font-family:var(--font-display);font-size:1.8rem;font-weight:700;letter-spacing:.02em;margin:0;line-height:1.1}
+.date{font-family:var(--font-display);font-size:3.2rem;font-weight:700;line-height:1.05}
+.date small{font-size:1.4rem;color:var(--muted);font-weight:600;margin-left:.4rem}
+.tz{font-size:.8rem;color:var(--muted);margin-top:.15rem}
+.source{background:var(--info-bg);border-left:.4rem solid var(--accent);border-radius:.5rem;padding:.6rem .9rem;min-width:0}
+.source .lab{font-size:.8rem;font-weight:700;letter-spacing:.14em;color:var(--muted)}
+.source .name{font-family:var(--font-display);font-size:1.9rem;font-weight:700;line-height:1.1;color:var(--accent);margin-top:.1rem}
+.chip{font-family:var(--font-mono);font-size:1rem;background:var(--info-bg);color:var(--accent);border-radius:.4rem;padding:.3rem .6rem;white-space:nowrap}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.4rem;align-items:start}
+section{min-width:0}
+h2{font-size:1.9rem;font-weight:800;margin:0 0 .5rem;display:flex;align-items:baseline;gap:.6rem;padding-bottom:.3rem;border-bottom:.2rem solid var(--accent);line-height:1.1}
+h2 b{font-family:var(--font-display);font-size:1.4rem;color:var(--accent);letter-spacing:.08em}
+.list{display:flex;flex-direction:column;gap:.45rem}
+.row{background:var(--surface);border:1px solid var(--line);border-radius:.5rem;padding:.55rem .8rem;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.2rem .8rem;align-items:center}
+.fl{font-family:var(--font-display);font-size:1.7rem;font-weight:700;line-height:1}
+.route{font-size:.85rem;color:var(--muted);min-width:0}
+.t{font-family:var(--font-mono);text-align:right;white-space:nowrap}
+.t .main{font-size:2.1rem;font-weight:600;line-height:1}
+.t .sch{font-size:.8rem;color:var(--muted);margin-top:.2rem}
+.pill{display:inline-block;font-size:.85rem;font-weight:700;border-radius:99px;padding:.1rem .6rem;margin-top:.3rem}
+.ok{background:var(--ok-bg);color:var(--ok)}.warn{background:var(--warn-bg);color:var(--warn)}.late{background:var(--late-bg);color:var(--late)}.info{background:var(--info-bg);color:var(--accent)}
+.disp{margin-top:.3rem;font-size:1.35rem;font-weight:700;color:var(--accent);background:var(--info-bg);border-radius:.4rem;padding:.05rem .5rem;display:inline-block}
+.disp span{font-size:.75rem;font-weight:700;margin-right:.4rem;letter-spacing:.1em}
+.left{min-width:0}
+.next{border-top:.15rem solid var(--line);padding-top:.7rem;display:flex;flex-direction:column;gap:.7rem}
+.next-head .day{font-family:var(--font-display);font-size:1.7rem;font-weight:700}
+.next-head .day small{font-size:.9rem;color:var(--muted);font-weight:500;margin-left:.4rem}
+.notes{font-size:.8rem;color:var(--muted);line-height:1.6;background:var(--surface);border:1px dashed var(--line);border-radius:.5rem;padding:.5rem .8rem}
+.notice{display:flex;gap:.7rem;align-items:center;background:var(--warn-bg);color:var(--warn);border:.15rem solid var(--warn);border-radius:.5rem;padding:.55rem .9rem;font-size:1.25rem;font-weight:800;line-height:1.4}
+.notice .mark{flex:none;display:inline-flex;align-items:center;justify-content:center;width:1.9rem;height:1.9rem;border-radius:50%;background:var(--warn);color:var(--surface);font-weight:800;font-size:1.2rem}
+.stamp{justify-self:end;text-align:right;background:var(--surface);border:.15rem solid var(--accent);border-radius:.5rem;padding:.4rem .9rem;min-width:0}
+.stamp .lab{font-size:.85rem;font-weight:700;color:var(--muted);letter-spacing:.08em}
+.stamp .ts{font-family:var(--font-mono);font-size:2.4rem;font-weight:600;color:var(--accent);line-height:1.1;white-space:nowrap}
+.stamp .ts small{font-size:1rem;color:var(--muted);margin-right:.4rem}
+.stamp .ago{font-size:.9rem;font-weight:700;color:var(--ok);margin-top:.1rem}
+.stamp.stale{border-color:var(--late);background:var(--late-bg)}
+.stamp.stale .ts,.stamp.stale .ago{color:var(--late)}
+.temp{border:.15rem solid var(--warn);border-radius:.6rem;padding:.6rem .8rem .8rem;background:var(--warn-bg)}
+.temp:not(:has(.row)){display:none}
+.temp h2{border-bottom-color:var(--warn);color:var(--warn)}
+.temp h2 b{color:var(--warn)}
+.temp .list{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.45rem 1.4rem}
+.dir{display:inline-block;font-size:.85rem;font-weight:800;border-radius:.3rem;padding:.05rem .5rem;margin-left:.6rem;vertical-align:middle;background:var(--info-bg);color:var(--accent)}
+.dir.sample{background:var(--warn);color:var(--surface)}
+@media (max-width:760px){.temp .list{grid-template-columns:1fr}html,html.two{font-size:14px}header{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.stamp{order:-1;justify-self:stretch;text-align:left}.notice{font-size:1.05rem}body{padding:.7rem .8rem 1rem}}</style></head><body><div class="wrap">
+<div class="notice" role="note"><span class="mark">!</span><span>収集サイトにより差異が出ることがあるので運行管理者に最終確認してください</span></div>
+<header>
+  <div class="hl"><h1>AA 羽田 発着タイム</h1>
+  <div class="date">11月6日<small>2026年・金曜日</small></div>
+  <div class="tz">すべて日本時間(JST)</div></div>
+  <div class="source"><div class="lab">情報源</div><div class="name">FlightStats</div></div>
+  <div class="stamp" id="stamp" data-ts="2026-11-06T16:59:00+09:00"><div class="lab">最終更新</div><div class="ts"><small>11/06</small>16:59</div><div class="ago" id="ago"></div></div>
+</header>
+<div class="cols"><section><h2><b>ARR</b>羽田着</h2><div class="list"><div class="row"><div class="left"><div class="fl">AA169</div><div class="route">ロサンゼルス発 11/4 23:42(出発済み)</div><span class="pill info">着陸済 早め 約12分</span></div>
+  <div class="t"><div class="main">04:53</div><div class="sch">定刻 05:05</div><div class="disp"><span>配車</span>05:18</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA167</div><div class="route">ニューヨーク発 11/5 10:00(出発済み)</div><span class="pill ok">着陸済 定刻</span></div>
+  <div class="t"><div class="main">14:32</div><div class="sch">定刻 14:35</div><div class="disp"><span>配車</span>14:57</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA27</div><div class="route">ロサンゼルス発 11/5 10:03(出発済み)</div><span class="pill late">着陸済 遅延 約57分</span></div>
+  <div class="t"><div class="main">16:02</div><div class="sch">定刻 15:05</div><div class="disp"><span>配車</span>16:27</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA175</div><div class="route">ダラス発 11/5 13:38(出発済み)</div><span class="pill ok">飛行中 定刻</span></div>
+  <div class="t"><div class="main">18:34</div><div class="sch">定刻 18:25</div><div class="disp"><span>配車</span>18:59</div></div></div></div></section>
+<section><h2><b>DEP</b>羽田発</h2><div class="list"><div class="row"><div class="left"><div class="fl">AA170</div><div class="route">ロサンゼルス行き ・LAX着は06:20見込み(現地)</div><span class="pill info">出発済 早め 約11分</span></div>
+  <div class="t"><div class="main">12:54</div><div class="sch">定刻 13:05</div><div class="disp"><span>配車</span>10:39</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA168</div><div class="route">ニューヨーク行き</div><span class="pill late">遅延 約18分</span></div>
+  <div class="t"><div class="main">17:28</div><div class="sch">定刻 17:10</div><div class="disp"><span>配車</span>15:13</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA26</div><div class="route">ロサンゼルス行き</div><span class="pill ok">定刻(予定のみ)</span></div>
+  <div class="t"><div class="main">18:00</div><div class="sch">定刻 18:00</div><div class="disp"><span>配車</span>15:45</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA176</div><div class="route">ダラス行き</div><span class="pill ok">定刻(予定のみ)</span></div>
+  <div class="t"><div class="main">20:25</div><div class="sch">定刻 20:25</div><div class="disp"><span>配車</span>18:10</div></div></div></div></section></div>
+<section class="temp" id="temp"><h2><b>EXTRA</b>臨時対応便</h2><div class="list">
+<!-- 臨時便の行はここに追加(下のサンプル行と同じ形)。data-date="YYYY-MM-DD" に対象日(日本時間)を入れると、その日の24時に自動で消えます。もっと遅くまで残したい場合は data-until="2026-11-08T06:00:00+09:00" のように消える日時を指定します。行が1つもなければ、この枠ごと非表示になります -->
+<div class="row" data-sample="1" data-date="2099-12-31"><div class="left"><div class="fl">AA000<span class="dir">羽田着</span><span class="dir sample">サンプル</span></div><div class="route">出発地発 日付 時刻(出発済み)</div><span class="pill info">飛行中 定刻</span></div>
+  <div class="t"><div class="main">--:--</div><div class="sch">定刻 --:--</div><div class="disp"><span>配車</span>--:--</div></div></div>
+</div></section>
+<div class="next">
+  <div class="next-head"><div class="day">翌日 11/7(土)<small>NEXT</small></div></div>
+<div class="cols"><section><h2><b>ARR</b>羽田着</h2><div class="list"><div class="row"><div class="left"><div class="fl">AA169</div><div class="route">ロサンゼルス発 11/5 23:47(出発済み)</div><span class="pill ok">飛行中 定刻</span></div>
+  <div class="t"><div class="main">05:15</div><div class="sch">定刻 05:05</div><div class="disp"><span>配車</span>05:40</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA167</div><div class="route">ニューヨーク発 11/6 09:59(予定)</div><span class="pill ok">出発前 定刻</span></div>
+  <div class="t"><div class="main">14:35</div><div class="sch">定刻 14:35</div><div class="disp"><span>配車</span>15:00</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA27</div><div class="route">ロサンゼルス発 11/6 09:55(予定)</div><span class="pill ok">出発前 定刻</span></div>
+  <div class="t"><div class="main">15:05</div><div class="sch">定刻 15:05</div><div class="disp"><span>配車</span>15:30</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA175</div><div class="route">ダラス発 11/6 13:25(予定)</div><span class="pill ok">出発前 定刻</span></div>
+  <div class="t"><div class="main">18:25</div><div class="sch">定刻 18:25</div><div class="disp"><span>配車</span>18:50</div></div></div></div></section>
+<section><h2><b>DEP</b>羽田発</h2><div class="list"><div class="row"><div class="left"><div class="fl">AA170</div><div class="route">ロサンゼルス行き</div><span class="pill ok">定刻(予定のみ)</span></div>
+  <div class="t"><div class="main">13:05</div><div class="sch">定刻 13:05</div><div class="disp"><span>配車</span>10:50</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA168</div><div class="route">ニューヨーク行き</div><span class="pill ok">定刻(予定のみ)</span></div>
+  <div class="t"><div class="main">17:10</div><div class="sch">定刻 17:10</div><div class="disp"><span>配車</span>14:55</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA26</div><div class="route">ロサンゼルス行き</div><span class="pill ok">定刻(予定のみ)</span></div>
+  <div class="t"><div class="main">18:00</div><div class="sch">定刻 18:00</div><div class="disp"><span>配車</span>15:45</div></div></div>
+<div class="row"><div class="left"><div class="fl">AA176</div><div class="route">ダラス行き</div><span class="pill ok">定刻(予定のみ)</span></div>
+  <div class="t"><div class="main">20:25</div><div class="sch">定刻 20:25</div><div class="disp"><span>配車</span>18:10</div></div></div></div></section></div>
+</div>
+<div class="notes">配車時間は 羽田着=到着の25分後、羽田発(ホテル配車)=出発の2時間15分前(最新の見込み時刻が基準)。時刻は変わることがあります。この表は取得した値を並べたもので、航空会社の発表ではありません。</div>
+</div><script>
+(function(){var el=document.getElementById('stamp'),ago=document.getElementById('ago');
+function u(){var t=new Date(el.getAttribute('data-ts')),m=Math.floor((Date.now()-t)/60000);
+if(isNaN(m)){return}
+var txt=m<1?'たった今':m<60?m+'分前':Math.floor(m/60)+'時間'+(m%60)+'分前';
+if(m>=30){txt+(' ※更新が止まっている可能性があります');ago.textContent=txt+' ※更新が止まっている可能性があります';el.classList.add('stale')}
+else{ago.textContent=txt;el.classList.remove('stale')}}
+u();setInterval(u,30000)})();
+</script><script>
+(function(){
+function sweep(){
+  var now=Date.now();
+  document.querySelectorAll('#temp .row').forEach(function(r){
+    var u=r.getAttribute('data-until'),d=r.getAttribute('data-date'),end;
+    if(u){end=new Date(u).getTime()}
+    else if(d){end=new Date(d+'T23:59:59+09:00').getTime()}
+    else{return}
+    if(!isNaN(end)&&now>end){r.remove()}
+  });
+}
+sweep();setInterval(sweep,60000);
+})();
+</script></body></html>
