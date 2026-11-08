@@ -65,15 +65,18 @@ h2 b{font-family:var(--font-display);font-size:1.4rem;color:var(--accent);letter
 .dir.sample{background:var(--warn);color:var(--surface)}
 @media (max-width:760px){.temp .list{grid-template-columns:1fr}html,html.two{font-size:14px}header{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.stamp{order:-1;justify-self:stretch;text-align:left}.notice{font-size:1.05rem}body{padding:.7rem .8rem 1rem}}
 .notice.err{background:var(--late-bg);color:var(--late);border-color:var(--late)}
-.notice.err .mark{background:var(--late)}</style></head><body><div class="wrap">
-<div class="notice" role="note"><span class="mark">!</span><span>収集サイトにより差異が出ることがあるので運行管理者に最終確認してください</span></div>
+.notice.err .mark{background:var(--late)}
+.inbtn{margin-left:auto;flex:none;background:var(--accent);color:var(--surface);border-radius:.4rem;padding:.35rem .9rem;font-size:1rem;font-weight:800;text-decoration:none;white-space:nowrap}
+.inbtn:hover{text-decoration:underline}
+@media (max-width:760px){.notice{flex-wrap:wrap}.inbtn{margin-left:0;width:100%;box-sizing:border-box;text-align:center;padding:.6rem}}</style></head><body><div class="wrap">
+<div class="notice" role="note"><span class="mark">!</span><span>収集サイトにより差異が出ることがあるので運行管理者に最終確認してください</span><a class="inbtn" href="https://docs.google.com/spreadsheets/d/1ZWTXV8vlb20mPGqswdwCY2isdnceRqFpjbJyLsYlAK0/edit" target="_blank" rel="noopener">臨時便・出発時間変更の場合はこちら</a></div>
 
 <header>
   <div class="hl"><h1>AA 羽田 発着タイム</h1>
   <div class="date">11月8日<small>2026年・日曜日</small></div>
   <div class="tz">すべて日本時間(JST)</div></div>
   <div class="source"><div class="lab">情報源</div><div class="name">FlightStats</div></div>
-  <div class="stamp" id="stamp" data-ts="2026-11-08T09:49:00+09:00"><div class="lab">最終更新</div><div class="ts"><small>11/08</small>09:49</div><div class="ago" id="ago"></div></div>
+  <div class="stamp" id="stamp" data-ts="2026-11-08T09:54:00+09:00"><div class="lab">最終更新</div><div class="ts"><small>11/08</small>09:54</div><div class="ago" id="ago"></div></div>
 </header>
 <div class="cols"><section><h2><b>ARR</b>羽田着</h2><div class="list"><div class="row"><div class="left"><div class="fl">AA169</div><div class="route">ロサンゼルス発 11/6 23:49(出発済み)</div><span class="pill late">着陸済 遅延 約17分</span></div>
   <div class="t"><div class="main">05:22</div><div class="sch">定刻 05:05</div></div>
