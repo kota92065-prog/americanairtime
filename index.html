@@ -8,8 +8,8 @@
  --font-display:"Barlow Condensed","Arial Narrow",sans-serif;--font-body:"Noto Sans JP",system-ui,sans-serif;--font-mono:"IBM Plex Mono",ui-monospace,monospace}
 @media (prefers-color-scheme:dark){:root{--bg:#0d141c;--surface:#16202b;--fg:#e8eef5;--muted:#93a2b3;--line:#263443;--accent:#6ab0ff;--ok:#5fd394;--warn:#f2b45a;--late:#ff8d82;--ok-bg:#12301f;--warn-bg:#3a2a10;--late-bg:#3d1a17;--info-bg:#14283f;color-scheme:dark}}
 /* 画面の大きさに合わせて全体の文字・余白を拡縮(1rem が基準)。今日だけ=one、翌日つき=two */
-html{font-size:max(9px,min(calc(100vh / 46),calc(100vw / 96)))}
-html.two{font-size:max(8px,min(calc(100vh / 76),calc(100vw / 96)))}
+html{font-size:max(9px,min(calc(100vh / 62),calc(100vw / 96)))}
+html.two{font-size:max(8px,min(calc(100vh / 110),calc(100vw / 96)))}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);padding:.9rem 1.4rem 1rem}
 .wrap{display:flex;flex-direction:column;gap:.9rem}
 header{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:1.4rem;align-items:center}
@@ -73,7 +73,7 @@ h2 b{font-family:var(--font-display);font-size:1.4rem;color:var(--accent);letter
   <div class="date">11月8日<small>2026年・日曜日</small></div>
   <div class="tz">すべて日本時間(JST)</div></div>
   <div class="source"><div class="lab">情報源</div><div class="name">FlightStats</div></div>
-  <div class="stamp" id="stamp" data-ts="2026-11-08T09:19:00+09:00"><div class="lab">最終更新</div><div class="ts"><small>11/08</small>09:19</div><div class="ago" id="ago"></div></div>
+  <div class="stamp" id="stamp" data-ts="2026-11-08T09:23:00+09:00"><div class="lab">最終更新</div><div class="ts"><small>11/08</small>09:23</div><div class="ago" id="ago"></div></div>
 </header>
 <div class="cols"><section><h2><b>ARR</b>羽田着</h2><div class="list"><div class="row"><div class="left"><div class="fl">AA169</div><div class="route">ロサンゼルス発 11/6 23:49(出発済み)</div><span class="pill late">着陸済 遅延 約17分</span></div>
   <div class="t"><div class="main">05:22</div><div class="sch">定刻 05:05</div></div>
